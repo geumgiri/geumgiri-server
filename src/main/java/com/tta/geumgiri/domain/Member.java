@@ -4,15 +4,15 @@ import jakarta.persistence.*;
 
 public class Member {
 
-    //@Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
 
     private String password;
 
-    //@ManyToOne
+    @ManyToOne
     private String account;
 
     // 신용 등급
