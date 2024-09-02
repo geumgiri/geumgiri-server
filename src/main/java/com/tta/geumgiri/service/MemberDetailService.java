@@ -5,6 +5,7 @@ import com.tta.geumgiri.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,9 +17,9 @@ public class MemberDetailService implements UserDetailsService {
 
     // 사용자 이름(email)로 사용자 정보를 가져오는 메소드
     @Override
-    public UserDetails loadUserByUsername(String email){
-        return memberRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException(email));
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return memberRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
     }
 
 

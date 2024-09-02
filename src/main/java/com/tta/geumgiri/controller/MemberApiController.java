@@ -19,7 +19,8 @@ public class MemberApiController {
 
     private final MemberService memberService;
 
-    @PostMapping("/login")
+
+    @PostMapping("/user")
     public String signup(AddMemberRequest request){
         memberService.save(request);
         return "redirect:/login";
