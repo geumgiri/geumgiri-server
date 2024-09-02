@@ -8,10 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -19,11 +17,15 @@ public class MemberApiController {
 
     private final MemberService memberService;
 
-
     @PostMapping("/user")
-    public String signup(AddMemberRequest request){
-        memberService.save(request);
-        return "redirect:/login";
+    public String signup(@ModelAttribute AddMemberRequest request, Model model) {
+        try {
+            memberService.save(request);
+            return "redirect:/login";
+        } catch (MemberService.EmailAlreadyExistsException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "signup"; // 이메일 중복이 있을 경우, 다시 회원가입 페이지로 돌아가도록 함
+        }
     }
 
     @GetMapping("/logout")
@@ -32,6 +34,4 @@ public class MemberApiController {
                 SecurityContextHolder.getContext().getAuthentication());
         return "redirect:/login";
     }
-
-
 }

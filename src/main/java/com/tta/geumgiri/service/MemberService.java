@@ -15,11 +15,20 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public Long save(AddMemberRequest dto){
-        return memberRepository.save(Member.builder()
+    public Long save(AddMemberRequest dto) throws EmailAlreadyExistsException {
+        if (memberRepository.findByEmail(dto.getEmail()).isPresent()) {
+            throw new EmailAlreadyExistsException("Email is already taken.");
+        }
+        Member newMember = Member.builder()
                 .email(dto.getEmail())
-                //패스워드 암호화
                 .password(bCryptPasswordEncoder.encode(dto.getPassword()))
-                .build()).getId();
+                .build();
+        return memberRepository.save(newMember).getId();
+    }
+
+    public class EmailAlreadyExistsException extends RuntimeException {
+        public EmailAlreadyExistsException(String message) {
+            super(message);
+        }
     }
 }
