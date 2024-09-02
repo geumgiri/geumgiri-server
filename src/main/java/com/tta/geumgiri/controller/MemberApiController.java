@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 public class MemberApiController {
 
     private final MemberService memberService;
 
-    @PostMapping("/user")
+    @PostMapping("/login")
     public String signup(AddMemberRequest request){
         memberService.save(request);
         return "redirect:/login";
