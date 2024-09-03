@@ -29,10 +29,14 @@ public class Card {
     @OneToMany(mappedBy = "card", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Benefit> benefits = new ArrayList<>();
 
+    @OneToMany(mappedBy = "card", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<MyCard> myCards = new ArrayList<>();
+
     @Builder
-    public Card(String cardName, String cardDescription, List<Benefit> benefits) {
+    public Card(String cardName, String cardDescription, List<Benefit> benefits, List<MyCard> myCards) {
         this.cardName = cardName;
         this.cardDescription = cardDescription;
         this.benefits = benefits;
+        this.myCards = myCards;
     }
 }
