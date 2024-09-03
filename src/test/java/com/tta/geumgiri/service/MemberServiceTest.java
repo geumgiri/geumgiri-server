@@ -77,12 +77,13 @@ public class MemberServiceTest {
         // 반환된 memberId가 1L과 동일한지 확인합니다.
         assertEquals(1L, memberId);
 
+        // Verify: save 메서드가 호출되었는지 검증합니다.
+        verify(memberRepository).save(any(Member.class));
+
         // Print success message: 테스트가 성공했음을 콘솔에 출력합니다.
         System.out.println("Test for saving a new member succeeded!");
         System.out.println();
 
-        // Verify: save 메서드가 호출되었는지 검증합니다.
-        verify(memberRepository).save(any(Member.class));
     }
 
     // 이미 존재하는 이메일로 회원가입을 시도하는 경우를 테스트합니다.
@@ -91,7 +92,7 @@ public class MemberServiceTest {
     void testSaveMemberWithExistingEmail() {
         // Arrange: 테스트에 필요한 객체와 상태를 설정합니다.
         AddMemberRequest request = new AddMemberRequest();
-        request.setEmail("test@example.com");
+        request.setEmail("test1@example.com");
         request.setPassword("password123");
 
         // Mocking repository behavior: MemberRepository의 동작을 설정합니다.
