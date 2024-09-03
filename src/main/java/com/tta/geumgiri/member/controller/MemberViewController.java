@@ -1,4 +1,4 @@
-package com.tta.geumgiri.controller;
+package com.tta.geumgiri.member.controller;
 
 
 import org.springframework.stereotype.Controller;

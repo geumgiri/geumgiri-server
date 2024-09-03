@@ -1,8 +1,8 @@
 package com.tta.geumgiri.config;
 
 
-import com.tta.geumgiri.service.MemberDetailService;
-import com.tta.geumgiri.service.MemberService;
+import com.tta.geumgiri.member.service.MemberDetailService;
+import com.tta.geumgiri.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

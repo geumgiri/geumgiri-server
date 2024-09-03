@@ -1,9 +1,9 @@
-package com.tta.geumgiri.service;
+package com.tta.geumgiri.member.service;
 
 
-import com.tta.geumgiri.domain.Member;
-import com.tta.geumgiri.domain.dto.AddMemberRequest;
-import com.tta.geumgiri.repository.MemberRepository;
+import com.tta.geumgiri.member.domain.Member;
+import com.tta.geumgiri.member.domain.dto.AddMemberRequest;
+import com.tta.geumgiri.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

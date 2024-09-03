@@ -1,7 +1,7 @@
-package com.tta.geumgiri.service;
+package com.tta.geumgiri.member.service;
 
 
-import com.tta.geumgiri.repository.MemberRepository;
+import com.tta.geumgiri.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

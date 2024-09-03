@@ -1,4 +1,4 @@
-package com.tta.geumgiri.domain;
+package com.tta.geumgiri.member.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
