@@ -1,7 +1,7 @@
-package com.tta.geumgiri.controller;
+package com.tta.geumgiri.member.controller;
 
-import com.tta.geumgiri.domain.dto.AddMemberRequest;
-import com.tta.geumgiri.service.MemberService;
+import com.tta.geumgiri.member.domain.dto.AddMemberRequest;
+import com.tta.geumgiri.member.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

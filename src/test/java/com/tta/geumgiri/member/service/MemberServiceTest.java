@@ -1,8 +1,9 @@
-package com.tta.geumgiri.service;
+package com.tta.geumgiri.member.service;
 
-import com.tta.geumgiri.domain.Member;
-import com.tta.geumgiri.domain.dto.AddMemberRequest;
-import com.tta.geumgiri.repository.MemberRepository;
+import com.tta.geumgiri.member.domain.Member;
+import com.tta.geumgiri.member.domain.dto.AddMemberRequest;
+import com.tta.geumgiri.member.repository.MemberRepository;
+import com.tta.geumgiri.member.service.MemberService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

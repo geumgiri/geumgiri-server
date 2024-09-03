@@ -1,4 +1,4 @@
-package com.tta.geumgiri.domain.dto;
+package com.tta.geumgiri.member.domain.dto;
 
 
 import lombok.Getter;
