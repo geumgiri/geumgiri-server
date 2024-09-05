@@ -34,6 +34,7 @@ public class AuthService {
         .name(request.name())
         .userId(request.userId())
         .password(encodedPassword)
+        .role(request.role())
         .build();
     Member savedMember = memberRepository.save(member);
     Token issuedToken = issueTokenAndStoreRefreshToken(savedMember.getId());
