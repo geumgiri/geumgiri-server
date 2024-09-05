@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Table(name = "benefits")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -32,11 +34,27 @@ public class Benefit {
     @JoinColumn(name = "card_id", nullable = false)
     private Card card;
 
+    @Column(name = "created_at", updatable = false, nullable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
     @Builder
     public Benefit(BenefitType benefitType, BenefitCategory benefitCategory, Double value, Card card) {
         this.benefitType = benefitType;
         this.benefitCategory = benefitCategory;
         this.value = value;
         this.card = card;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
     }
 }

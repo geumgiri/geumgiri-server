@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Table(name = "my_cards")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -28,10 +30,26 @@ public class MyCard {
     @Column(name = "card_point")
     private Integer cardPoint;
 
+    @Column(name = "created_at", updatable = false, nullable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
     @Builder
     public MyCard(Card card, Account account, int cardPoint) {
         this.card = card;
         this.account = account;
         this.cardPoint = cardPoint;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
     }
 }
