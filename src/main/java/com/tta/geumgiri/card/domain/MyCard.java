@@ -26,7 +26,7 @@ public class MyCard {
     private Account account;
 
     @Column(name = "card_point")
-    private int cardPoint;
+    private Integer cardPoint;
 
     @Builder
     public MyCard(Card card, Account account, int cardPoint) {
