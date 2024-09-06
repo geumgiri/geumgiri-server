@@ -25,7 +25,7 @@ public class AuthController {
   public ResponseEntity<?> signup(
       @RequestBody final MemberAuthSignUpRequest request
   ){
-    final MemberAuthServiceResponse response = authService.signUp(request);
+    final ResponseEntity<Object> response = authService.signUp(request);
     return ResponseEntity
         .status(HttpStatus.CREATED)
         .body(response);

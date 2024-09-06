@@ -14,6 +14,8 @@ import com.tta.geumgiri.common.dto.response.responseEnum.ErrorStatus;
 import com.tta.geumgiri.common.exception.NotFoundException;
 import com.tta.geumgiri.member.domain.Member;
 import com.tta.geumgiri.member.persistence.MemberRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +28,7 @@ public class AuthService {
   private final RefreshTokenRepository refreshTokenRepository;
   private final PasswordEncoder passwordEncoder;
 
-  public MemberAuthServiceResponse signUp(MemberAuthSignUpRequest request){
+  public ResponseEntity<Object> signUp(MemberAuthSignUpRequest request){
 
     if (memberRepository.existsByUserId(request.userId())) {
       throw new IllegalArgumentException(String.valueOf(ErrorStatus.DUPLICATE_USER_ID));
@@ -40,9 +42,10 @@ public class AuthService {
         .password(encodedPassword)
         .role(request.role())
         .build();
-    Member savedMember = memberRepository.save(member);
-    Token issuedToken = issueTokenAndStoreRefreshToken(savedMember.getId());
-    return MemberAuthServiceResponse.of(issuedToken.accessToken(), issuedToken.refreshToken());
+
+    memberRepository.save(member);
+
+    return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
   public MemberAuthServiceResponse signIn(MemberAuthSignInRequest request){
