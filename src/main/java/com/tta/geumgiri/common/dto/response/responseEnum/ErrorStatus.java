@@ -18,6 +18,7 @@ public enum ErrorStatus {
   EXPIRED_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED.value(), "리프레시 토큰이 만료되었습니다. 다시 로그인해 주세요."),
   INVALID_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED.value(), "올바르지 않은 액세스 토큰입니다."),
   INVALID_CREDENTIALS(HttpStatus.UNAUTHORIZED.value(), "아이디 또는 비밀번호가 올바르지 않습니다."),
+  EXPIRED_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED.value(),"만료된 액세스 토큰입니다."),
 
 
   /**
