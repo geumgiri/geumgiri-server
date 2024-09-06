@@ -28,6 +28,10 @@ public class AuthService {
 
   public MemberAuthServiceResponse signUp(MemberAuthSignUpRequest request){
 
+    if (memberRepository.existsByUserId(request.userId())) {
+      throw new IllegalArgumentException(String.valueOf(ErrorStatus.DUPLICATE_USER_ID));
+    }
+
     String encodedPassword = passwordEncoder.encode(request.password());
 
     Member member = Member.builder()
@@ -43,6 +47,11 @@ public class AuthService {
 
   public MemberAuthServiceResponse signIn(MemberAuthSignInRequest request){
     Member findMember = findMemberBy(request.userId());
+
+    if (!passwordEncoder.matches(request.password(), findMember.getPassword())) {
+      throw new UnauthorizedException(ErrorStatus.INVALID_CREDENTIALS);
+    }
+
     Token issuedToken = issueTokenAndStoreRefreshToken(findMember.getId());
     return MemberAuthServiceResponse.of(issuedToken.accessToken(), issuedToken.refreshToken());
   }
