@@ -47,6 +47,11 @@ public class AuthService {
 
   public MemberAuthServiceResponse signIn(MemberAuthSignInRequest request){
     Member findMember = findMemberBy(request.userId());
+
+    if (!passwordEncoder.matches(request.password(), findMember.getPassword())) {
+      throw new UnauthorizedException(ErrorStatus.INVALID_CREDENTIALS);
+    }
+
     Token issuedToken = issueTokenAndStoreRefreshToken(findMember.getId());
     return MemberAuthServiceResponse.of(issuedToken.accessToken(), issuedToken.refreshToken());
   }
