@@ -12,4 +12,5 @@ public interface JwtHandlerAdapter {
 
   void equalsRefreshToken(String refreshToken, String storedRefreshToken);
 
+  Token storeAccessToken(Long id, String s);
 }

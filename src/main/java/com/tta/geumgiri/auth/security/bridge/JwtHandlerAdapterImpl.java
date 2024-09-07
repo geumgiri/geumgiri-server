@@ -1,10 +1,12 @@
 package com.tta.geumgiri.auth.security.bridge;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import com.tta.geumgiri.auth.application.exception.UnauthorizedException;
 import com.tta.geumgiri.common.dto.response.responseEnum.ErrorStatus;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -16,6 +18,7 @@ import java.util.Date;
 public class JwtHandlerAdapterImpl implements JwtHandlerAdapter {
 
   private static final String USER_ID = "userId";
+  private final RedisTemplate<String, String> redisTemplate;
 
   // 각 토큰의 만료 시간 설정
   private static final Long ACCESS_TOKEN_EXPIRATION_TIME = 60 * 1000L; // 1분
@@ -129,5 +132,11 @@ public class JwtHandlerAdapterImpl implements JwtHandlerAdapter {
   public Long getUserFromJwt(String token) {
     Claims claims = getBody(token);
     return Long.valueOf(claims.get(USER_ID).toString());
+  }
+
+  public Token storeAccessToken(Long userId, String accessToken) {
+    String key = "accessToken:" + userId;
+    redisTemplate.opsForValue().set(key, accessToken, ACCESS_TOKEN_EXPIRATION_TIME / 1000, TimeUnit.SECONDS);
+    return new Token(accessToken, null); // 예시로 accessToken만 포함된 Token 객체를 반환합니다.
   }
 }
