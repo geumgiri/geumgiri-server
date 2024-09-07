@@ -56,19 +56,26 @@ public class AuthService {
     }
 
     Token issuedToken = issueTokenAndStoreRefreshToken(findMember.getId());
-    return MemberAuthServiceResponse.of(issuedToken.accessToken(), issuedToken.refreshToken());
+    Token accessToken = jwtHandlerAdapter.storeAccessToken(findMember.getId(), issuedToken.accessToken());
+
+    return MemberAuthServiceResponse.of(accessToken.accessToken(),issuedToken.refreshToken());
   }
 
   public MemberAuthServiceResponse reissue(MemberAuthReissueRequest request){
+
     try{
       jwtHandlerAdapter.validateRefreshToken(request.refreshToken());
       Long memberId = jwtHandlerAdapter.getSubject(request.refreshToken());
       RefreshToken findRefreshToken = findRefreshTokenBy(memberId);
       jwtHandlerAdapter.equalsRefreshToken(request.refreshToken(), findRefreshToken.getRefreshToken());
+
       Token issuedToken = issueTokenAndStoreRefreshToken(memberId);
       return MemberAuthServiceResponse.of(issuedToken.accessToken(), issuedToken.refreshToken());
     }catch (UnauthorizedException e){
-      //sign out 처리
+      // 로그아웃 처리
+      Long memberId = jwtHandlerAdapter.getSubject(request.refreshToken());
+      removeRefreshToken(memberId); // Redis 또는 저장소에서 Refresh Token 삭제
+
       throw e;
     }
   }
@@ -93,5 +100,8 @@ public class AuthService {
     return issuedToken;
   }
 
+  private void removeRefreshToken(Long memberId) {
+    refreshTokenRepository.deleteById(memberId);
+  }
 
 }
