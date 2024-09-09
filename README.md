@@ -1,4 +1,4 @@
-## Geungiri
+# Geumgiri
 ## Commit Convention
 
 ```java
