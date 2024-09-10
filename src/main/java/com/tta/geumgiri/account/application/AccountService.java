@@ -51,10 +51,12 @@ public class AccountService {
         return member.getAccounts();
     }
 
+
     public Account getAccountByAccountNumber(String accountNumber, Long memberId, String accessToken) {
         authService.validateUserAccess(memberId,accessToken);
         return accountRepository.findByAccountNumber(accountNumber)
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(ErrorStatus.UNAUTHORIZED_USER)));
+     
     }
 
 }
