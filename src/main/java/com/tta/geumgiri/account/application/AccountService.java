@@ -55,6 +55,7 @@ public class AccountService {
         authService.validateUserAccess(memberId,accessToken);
         return accountRepository.findByAccountNumber(accountNumber)
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(ErrorStatus.UNAUTHORIZED_USER)));
+
     }
 
 }

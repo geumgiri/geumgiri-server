@@ -41,6 +41,7 @@ public class AccountController {
         return ResponseEntity.ok(newAccount);
     }
 
+    // 해당 멤버의 전체 계좌 조회
     @GetMapping("/member/{memberId}")
     public ResponseEntity<List<Account>> getAccountsByMemberId(@PathVariable Long memberId,
                                                                @RequestHeader("Authorization") String authHeader) {
@@ -48,14 +49,13 @@ public class AccountController {
         String accessToken = authHeader.replace("Bearer ", "");
 
         List<Account> accounts = accountService.getAccountsByMemberId(memberId, accessToken);
+
         if (accounts.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(accounts);
     }
 
-
-    @GetMapping("/{accountNumber}")
     public ResponseEntity<Account> getAccountByAccountNumber(@PathVariable String accountNumber,
                                                              @PathVariable Long memberId,
                                                              @RequestHeader("Authorization") String authHeader) {
