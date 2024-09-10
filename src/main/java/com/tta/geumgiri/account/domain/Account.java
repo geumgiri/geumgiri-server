@@ -27,6 +27,8 @@ public class Account {
 
     private String accountNumber;
 
+    private Long balance;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     @JsonBackReference // 직렬화 제외
@@ -40,5 +42,6 @@ public class Account {
         this.accountName = accountName;
         this.accountNumber = accountNumber;
         this.member = member;
+        this.balance = 0L;
     }
 }
