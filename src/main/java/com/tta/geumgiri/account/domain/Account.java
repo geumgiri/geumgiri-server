@@ -1,5 +1,6 @@
 package com.tta.geumgiri.account.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.tta.geumgiri.card.domain.MyCard;
 import com.tta.geumgiri.member.domain.Member;
 import jakarta.persistence.*;
@@ -28,6 +29,7 @@ public class Account {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
+    @JsonBackReference // 직렬화 제외
     private Member member;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

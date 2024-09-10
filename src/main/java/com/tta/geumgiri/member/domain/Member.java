@@ -1,5 +1,6 @@
 package com.tta.geumgiri.member.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tta.geumgiri.account.domain.Account;
 import com.tta.geumgiri.common.entity.Role;
 import jakarta.persistence.*;
@@ -31,6 +32,7 @@ public class Member extends BaseEntity {
     private Role role;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference // 직렬화 허용
     private List<Account> accounts = new ArrayList<>();
 
 
