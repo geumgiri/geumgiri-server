@@ -50,12 +50,15 @@ public class AccountController {
 
         List<Account> accounts = accountService.getAccountsByMemberId(memberId, accessToken);
 
+
         if (accounts.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(accounts);
     }
 
+
+    @GetMapping("/{accountNumber}")
     public ResponseEntity<Account> getAccountByAccountNumber(@PathVariable String accountNumber,
                                                              @PathVariable Long memberId,
                                                              @RequestHeader("Authorization") String authHeader) {
