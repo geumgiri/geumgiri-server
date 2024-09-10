@@ -25,27 +25,45 @@ public class AccountController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Account> createAccount(
-            @RequestParam Long memberId,
-            @RequestParam String accountName
-    ) {
+    public ResponseEntity<Account> createAccount(@RequestParam Long memberId,
+                                                 @RequestParam String accountName,
+                                                 @RequestHeader("Authorization") String authHeader) {
+        // Authorization 헤더에서 Bearer 토큰 추출
+        String accessToken = authHeader.replace("Bearer ", "");
+
         MemberResponse member = memberService.getMember(memberId);
         if (member == null) {
             return ResponseEntity.badRequest().body(null);
         }
 
-        Account newAccount = accountService.createAccount(member, accountName);
+        Account newAccount = accountService.createAccount(member, accountName, accessToken);
 
         return ResponseEntity.ok(newAccount);
     }
 
     @GetMapping("/member/{memberId}")
-    public ResponseEntity<List<Account>> getAccountsByMemberId(@PathVariable Long memberId) {
-        List<Account> accounts = accountService.getAccountsByMemberId(memberId);
+    public ResponseEntity<List<Account>> getAccountsByMemberId(@PathVariable Long memberId,
+                                                               @RequestHeader("Authorization") String authHeader) {
+        // Authorization 헤더에서 Bearer 토큰 추출
+        String accessToken = authHeader.replace("Bearer ", "");
+
+        List<Account> accounts = accountService.getAccountsByMemberId(memberId, accessToken);
         if (accounts.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(accounts);
+    }
+
+
+    @GetMapping("/{accountNumber}")
+    public ResponseEntity<Account> getAccountByAccountNumber(@PathVariable String accountNumber,
+                                                             @PathVariable Long memberId,
+                                                             @RequestHeader("Authorization") String authHeader) {
+        // Authorization 헤더에서 Bearer 토큰 추출
+        String accessToken = authHeader.replace("Bearer ", "");
+
+        Account account = accountService.getAccountByAccountNumber(accountNumber, memberId, accessToken);
+        return ResponseEntity.ok(account);
     }
 
 }

@@ -19,7 +19,7 @@ public enum ErrorStatus {
   INVALID_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED.value(), "올바르지 않은 액세스 토큰입니다."),
   INVALID_CREDENTIALS(HttpStatus.UNAUTHORIZED.value(), "아이디 또는 비밀번호가 올바르지 않습니다."),
   EXPIRED_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED.value(),"만료된 액세스 토큰입니다."),
-
+  UNAUTHORIZED_USER(HttpStatus.UNAUTHORIZED.value(),"접근이 허가되지 않은 유저입니다."),
 
   /**
    * 회원가입 관련 오류
