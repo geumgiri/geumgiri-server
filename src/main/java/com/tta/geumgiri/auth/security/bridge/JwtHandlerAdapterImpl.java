@@ -21,7 +21,7 @@ public class JwtHandlerAdapterImpl implements JwtHandlerAdapter {
   private final RedisTemplate<String, String> redisTemplate;
 
   // 각 토큰의 만료 시간 설정
-  private static final Long ACCESS_TOKEN_EXPIRATION_TIME = 60 * 1000L; // 1분
+  private static final Long ACCESS_TOKEN_EXPIRATION_TIME = 60 * 1000L * 60; // 1시간
   private static final Long REFRESH_TOKEN_EXPIRATION_TIME = 24 * 60 * 60 * 1000L * 14; // 14일
 
   @Value("${jwt.secret}")

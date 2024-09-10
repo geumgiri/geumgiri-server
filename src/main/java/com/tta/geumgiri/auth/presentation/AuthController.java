@@ -32,14 +32,18 @@ public class AuthController {
   }
 
   @PostMapping("/auth/signin")
-  public ResponseEntity<?> login(@RequestBody MemberAuthSignInRequest request) {
+  public ResponseEntity<?> login(
+          @RequestBody MemberAuthSignInRequest request
+  ) {
     final MemberAuthServiceResponse response = authService.signIn(request);
     return ResponseEntity.status(HttpStatus.OK)
         .body(response);
   }
 
   @PostMapping("/auth/reissue")
-  public ResponseEntity<?> refresh(@RequestBody MemberAuthReissueRequest request) {
+  public ResponseEntity<?> refresh(
+          @RequestBody MemberAuthReissueRequest request
+  ) {
       final MemberAuthServiceResponse response = authService.reissue(request);
       return ResponseEntity.ok(response);
   }
