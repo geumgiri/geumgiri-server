@@ -100,6 +100,19 @@ public class AuthService {
     return issuedToken;
   }
 
+  public Long getCurrentUserId(String accessToken) {
+    return jwtHandlerAdapter.getSubject(accessToken);
+  }
+
+  // 계좌 생성 전에 사용자 검증
+  public void validateUserAccess(Long memberId, String accessToken) {
+    Long currentUserId = getCurrentUserId(accessToken);
+    if (!memberId.equals(currentUserId)) {
+      throw new UnauthorizedException(ErrorStatus.UNAUTHORIZED_USER);
+    }
+  }
+  
+
   private void removeRefreshToken(Long memberId) {
     refreshTokenRepository.deleteById(memberId);
   }
