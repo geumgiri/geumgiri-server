@@ -43,4 +43,10 @@ public class AccountService {
         return member.getAccounts();
     }
 
+    // 계좌 ID로 계좌 조회
+    public Account getAccountByAccountNumber(String accountNumber) {
+        return accountRepository.findByAccountNumber(accountNumber)
+                .orElseThrow(() -> new EntityNotFoundException("Account not found"));
+    }
+
 }

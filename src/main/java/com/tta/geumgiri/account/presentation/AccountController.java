@@ -39,13 +39,25 @@ public class AccountController {
         return ResponseEntity.ok(newAccount);
     }
 
+    // 해당 멤버의 전체 계좌 조회
     @GetMapping("/member/{memberId}")
-    public ResponseEntity<List<Account>> getAccountsByMemberId(@PathVariable Long memberId) {
+    public ResponseEntity<List<Account>> getAccountsByMemberId(
+            @PathVariable Long memberId
+    ) {
         List<Account> accounts = accountService.getAccountsByMemberId(memberId);
         if (accounts.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         return ResponseEntity.ok(accounts);
     }
+
+
+    @GetMapping("/member/{accountNumber}")
+    public ResponseEntity<Account> getAccountByAccountNumber(
+            @PathVariable String accountNumber) {
+        Account account = accountService.getAccountByAccountNumber(accountNumber);
+        return ResponseEntity.ok(account);
+    }
+
 
 }
