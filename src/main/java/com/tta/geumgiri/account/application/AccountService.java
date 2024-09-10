@@ -1,6 +1,7 @@
 package com.tta.geumgiri.account.application;
 
 import com.tta.geumgiri.account.domain.Account;
+import com.tta.geumgiri.account.domain.util.AccountRandomUtil;
 import com.tta.geumgiri.account.persistence.AccountRepository;
 import com.tta.geumgiri.member.domain.Member;
 import com.tta.geumgiri.member.persistence.MemberRepository;
@@ -8,6 +9,8 @@ import com.tta.geumgiri.member.presentation.dto.response.MemberResponse;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AccountService {
@@ -21,12 +24,23 @@ public class AccountService {
         this.memberRepository = memberRepository;
     }
 
-    public void createAccount(MemberResponse memberResponse) {
-        Member member = memberRepository.findById(memberResponse.getId())
+    public Account createAccount(MemberResponse memberResponse, String accountName) {
+        Member member = memberRepository.findById(memberResponse.id())
                 .orElseThrow(() -> new EntityNotFoundException("Member not found"));
 
-        Account account = new Account();
-        account.setMember(member);
-        // Save the account entity
+        Account account = Account.builder()
+                .accountName(accountName)
+                .accountNumber(AccountRandomUtil.generateAccountNum(12))  // 계좌 번호 생성 메서드
+                .member(member)
+                .build();
+
+        return accountRepository.save(account);
     }
+
+    public List<Account> getAccountsByMemberId(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new EntityNotFoundException("Member not found"));
+        return member.getAccounts();
+    }
+
 }
