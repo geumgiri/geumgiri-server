@@ -1,7 +1,14 @@
 package com.tta.geumgiri.mission.domain;
 
 import jakarta.persistence.*;
+<<<<<<< HEAD
 import lombok.*;
+=======
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+>>>>>>> cfdc453 (feat:#7 새로운 미션 생성)
 import org.hibernate.annotations.ColumnDefault;
 
 @Entity
