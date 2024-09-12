@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 public enum ErrorStatus {
 
   MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND.value(),"ID에 해당하는 멤버가 존재하지 않습니다."),
+  CARD_NOT_FOUND(HttpStatus.NOT_FOUND.value(),"ID에 해당하는 카드가 존재하지 않습니다."),
+  ACCOUNT_NOT_FOUND(HttpStatus.NOT_FOUND.value(),"ID에 해당하는 계좌가 존재하지 않습니다."),
 
   /**
    * 인증 / 인가 관련 오류
