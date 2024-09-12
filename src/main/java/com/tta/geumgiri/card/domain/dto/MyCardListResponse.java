@@ -7,10 +7,10 @@ import lombok.Getter;
 public class MyCardListResponse {
 
     private final Long id;
-    private final Long cardId;
+    private final String cardName;
 
     public MyCardListResponse(MyCard myCard) {
         this.id = myCard.getId();
-        this.cardId = myCard.getCard().getId();
+        this.cardName = myCard.getCard().getCardName();
     }
 }

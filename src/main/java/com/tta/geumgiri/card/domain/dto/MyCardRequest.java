@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class MyCardIssuanceRequest {
+public class MyCardRequest {
 
     private final Long accountId;
     private final Long cardId;
