@@ -26,7 +26,8 @@ public enum ErrorStatus {
   /**
    * 회원가입 관련 오류
    */
-  DUPLICATE_USER_ID(HttpStatus.CONFLICT.value(), "이미 존재하는 아이디입니다.")
+  DUPLICATE_USER_ID(HttpStatus.CONFLICT.value(), "이미 존재하는 아이디입니다."),
+  DUPLICATE_ACCOUNT_ID(HttpStatus.CONFLICT.value(), "이미 사용중인 계좌입니다.")
   ;
 
   private final int status;

@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -46,11 +47,15 @@ public class CardService {
     @Transactional
     public MyCardResponse createMyCard(MyCardRequest request) {
 
-        Card card = cardRepository.findById(request.getCardId())
-                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(ErrorStatus.CARD_NOT_FOUND)));
-
         Account account = accountRepository.findById(request.getAccountId())
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(ErrorStatus.ACCOUNT_NOT_FOUND)));
+
+        if (isDuplicateAccount(account)) {
+            throw new IllegalArgumentException(String.valueOf(ErrorStatus.DUPLICATE_ACCOUNT_ID));
+        }
+
+        Card card = cardRepository.findById(request.getCardId())
+                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(ErrorStatus.CARD_NOT_FOUND)));
 
         MyCard myCard = MyCard.builder()
                 .card(card)
@@ -89,5 +94,10 @@ public class CardService {
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(ErrorStatus.CARD_NOT_FOUND)));
 
         myCardRepository.delete(myCard);
+    }
+
+    private boolean isDuplicateAccount(Account account) {
+        Optional<MyCard> myCard = myCardRepository.findByAccount(account);
+        return myCard.isPresent();
     }
 }
