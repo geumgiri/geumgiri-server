@@ -4,10 +4,7 @@ import com.tta.geumgiri.account.domain.Account;
 import com.tta.geumgiri.account.persistence.AccountRepository;
 import com.tta.geumgiri.card.domain.Card;
 import com.tta.geumgiri.card.domain.MyCard;
-import com.tta.geumgiri.card.domain.dto.CardListResponse;
-import com.tta.geumgiri.card.domain.dto.CardResponse;
-import com.tta.geumgiri.card.domain.dto.MyCardRequest;
-import com.tta.geumgiri.card.domain.dto.MyCardResponse;
+import com.tta.geumgiri.card.domain.dto.*;
 import com.tta.geumgiri.card.repository.CardRepository;
 import com.tta.geumgiri.card.repository.MyCardRepository;
 import com.tta.geumgiri.common.dto.response.responseEnum.ErrorStatus;
@@ -66,4 +63,31 @@ public class CardService {
         return new MyCardResponse(myCard);
     }
 
+    @Transactional(readOnly = true)
+    public List<MyCardListResponse> getMyCards(Long memberId) {
+
+        List<MyCard> myCards = myCardRepository.findByAccountMemberId(memberId)
+                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(ErrorStatus.CARD_NOT_FOUND)));
+
+        return myCards
+                .stream()
+                .map(MyCardListResponse::new)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public MyCardResponse getMyCard(Long myCardId) {
+        MyCard myCard = myCardRepository.findById(myCardId)
+                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(ErrorStatus.CARD_NOT_FOUND)));
+
+        return new MyCardResponse(myCard);
+    }
+
+    @Transactional
+    public void removeMyCard(Long myCardId) {
+        MyCard myCard = myCardRepository.findById(myCardId)
+                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(ErrorStatus.CARD_NOT_FOUND)));
+
+        myCardRepository.delete(myCard);
+    }
 }
