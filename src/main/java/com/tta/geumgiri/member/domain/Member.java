@@ -28,6 +28,8 @@ public class Member extends BaseEntity {
 
     private String name;
 
+    private int creditRatio = 500;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -37,10 +39,11 @@ public class Member extends BaseEntity {
 
 
     @Builder
-    public Member(String name, String userId, String password, Role role, List<Account> accounts) {
+    public Member(String name, String userId, String password, int creditRatio,Role role, List<Account> accounts) {
         this.name = name;
         this.userId = userId;
         this.password = password;
+        this.creditRatio = creditRatio;
         this.role = role;
         this.accounts = accounts;
     }
