@@ -28,7 +28,7 @@ public class Member extends BaseEntity {
 
     private String name;
 
-    private int creditRatio = 500;
+    private int creditRatio;
 
     @Enumerated(EnumType.STRING)
     private Role role;
