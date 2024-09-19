@@ -57,8 +57,6 @@ public class AccountController {
         return ResponseEntity.ok(accounts);
     }
 
-
-    @GetMapping("/{accountNumber}")
     public ResponseEntity<Account> getAccountByAccountNumber(@PathVariable String accountNumber,
                                                              @PathVariable Long memberId,
                                                              @RequestHeader("Authorization") String authHeader) {
