@@ -1,7 +1,5 @@
-package com.tta.geumgiri.mission.domain.dto;
+package com.tta.geumgiri.mission.domain.dto.RequestDto;
 
-import jakarta.persistence.Column;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 

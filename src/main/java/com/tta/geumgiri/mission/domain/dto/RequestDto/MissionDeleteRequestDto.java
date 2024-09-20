@@ -1,4 +1,4 @@
-package com.tta.geumgiri.mission.domain.dto;
+package com.tta.geumgiri.mission.domain.dto.RequestDto;
 
 import lombok.Builder;
 import lombok.Getter;
