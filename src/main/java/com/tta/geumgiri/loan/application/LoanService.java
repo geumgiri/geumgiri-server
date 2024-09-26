@@ -56,6 +56,9 @@ public class LoanService {
             throw new IllegalArgumentException(ErrorStatus.INVALID_ACCOUNT_OWNER.getMessage());
         }
 
+        member.setCreditRatio(member.getCreditRatio() - 200); // 대출 시 신용 점수 200점 낮춤
+        memberRepository.save(member);
+
         account.addBalance(amount);
         // 대출 신청
         Loan loan = Loan.builder()
@@ -99,6 +102,9 @@ public class LoanService {
 
         if (loan.getRemainingAmount() == 0) {
             loan.markAsPaid(); // 상환 완료
+            Member member = loan.getMember();
+            member.setCreditRatio(member.getCreditRatio() + 200);
+            memberRepository.save(member);
         }
 
         loanRepository.save(loan);

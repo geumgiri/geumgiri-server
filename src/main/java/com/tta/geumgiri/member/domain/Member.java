@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import com.tta.geumgiri.common.entity.BaseEntity;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ public class Member extends BaseEntity {
 
     private String name;
 
+    @Setter
     private int creditRatio;
 
     @Enumerated(EnumType.STRING)
