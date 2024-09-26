@@ -30,6 +30,10 @@ public class LoanService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("Member not found"));
 
+        if (repaymentDate.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("상환 날짜는 오늘보다 과거일 수 없습니다.");
+        }
+
         // 신용등급 검증 예: 신용등급 500 이상만 대출 가능
         if (member.getCreditRatio() < 400) {
             throw new IllegalArgumentException("신용등급이 낮아 대출이 불가능합니다.");
