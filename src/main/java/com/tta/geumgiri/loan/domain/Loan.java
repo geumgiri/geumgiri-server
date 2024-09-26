@@ -3,10 +3,7 @@ package com.tta.geumgiri.loan.domain;
 import com.tta.geumgiri.member.domain.Member;
 import com.tta.geumgiri.account.domain.Account;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Builder;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -22,7 +19,11 @@ public class Loan {
     private Long id;
 
     private Long amount; // 대출 금액
-    private LocalDate repaymentDate; // 상환 날짜
+    @Setter
+    private Long remainingAmount; // 남은 상환 금액
+    private LocalDate repaymentDate; // 상환 만기 날짜
+    private int installments; // 전체 상환 횟수
+    private int paidInstallments = 0; // 상환된 회차 수
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
@@ -35,16 +36,23 @@ public class Loan {
     private boolean isPaid; // 대출 상환 여부
 
     @Builder
-    public Loan(Long amount, LocalDate repaymentDate, Member member, Account account) {
+    public Loan(Long amount, LocalDate repaymentDate, Member member, Account account, int installments) {
         this.amount = amount;
+        this.remainingAmount = amount; // 처음엔 전체 금액이 남아 있음
         this.repaymentDate = repaymentDate;
         this.member = member;
         this.account = account;
         this.isPaid = false; // 대출 신청 시 상환 여부는 false
+        this.installments = installments;
     }
 
-    // 상환 처리 메서드
+
+    public void incrementPaidInstallments() {
+        this.paidInstallments++;
+    }
+
     public void markAsPaid() {
         this.isPaid = true;
     }
+
 }

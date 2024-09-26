@@ -42,12 +42,17 @@ public class Account {
         this.balance = 0L; // 초기 잔액 0으로 설정
     }
 
-    // 잔액을 증가/차감하는 메서드
+    // 잔액을 차감하는 메서드
     public void deductBalance(Long amount) {
         if (this.balance >= amount) {
             this.balance -= amount;
         } else {
             throw new IllegalArgumentException("잔액이 부족합니다.");
         }
+    }
+
+    // 잔액을 증가하는 메서드
+    public void addBalance(Long amount) {
+        this.balance += amount;
     }
 }
