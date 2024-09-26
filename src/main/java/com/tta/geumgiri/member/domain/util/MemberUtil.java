@@ -11,6 +11,7 @@ public class MemberUtil {
         .id(member.getId())
         .name(member.getName())
         .role(member.getRole())
+        .creditRatio(member.getCreditRatio())
         .account(member.getAccounts())
         .build();
   }

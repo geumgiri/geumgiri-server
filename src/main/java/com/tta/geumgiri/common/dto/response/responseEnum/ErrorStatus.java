@@ -24,7 +24,20 @@ public enum ErrorStatus {
   /**
    * 회원가입 관련 오류
    */
-  DUPLICATE_USER_ID(HttpStatus.CONFLICT.value(), "이미 존재하는 아이디입니다.")
+  DUPLICATE_USER_ID(HttpStatus.CONFLICT.value(), "이미 존재하는 아이디입니다."),
+
+  /**
+   *  대출 관련 오류
+   */
+  LOAN_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "대출이 존재하지 않습니다."),
+  INSUFFICIENT_CREDIT(HttpStatus.BAD_REQUEST.value(), "신용등급이 낮아 대출이 불가능합니다."),
+  ACCOUNT_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "Account not found"),
+  INVALID_ACCOUNT_OWNER(HttpStatus.BAD_REQUEST.value(), "이 계좌는 해당 회원의 것이 아닙니다."),
+  INVALID_REPAYMENT_DATE(HttpStatus.BAD_REQUEST.value(), "상환 날짜는 오늘보다 과거일 수 없습니다."),
+  INVALID_INSTALLMENT(HttpStatus.BAD_REQUEST.value(), "상환 횟수는 1 이상이어야 합니다."),
+  INSTALLMENT_AMOUNT_EXCEEDS_REMAINING(HttpStatus.BAD_REQUEST.value(), "상환 금액이 남은 금액보다 큽니다."),
+  INSTALLMENT_COUNT_ZERO(HttpStatus.BAD_REQUEST.value(), "상환 횟수가 0입니다. 올바른 값을 입력해야 합니다."),
+  LOAN_ALREADY_PAID(HttpStatus.BAD_REQUEST.value(), "대출이 이미 상환 완료되었습니다.")
   ;
 
   private final int status;
