@@ -5,6 +5,7 @@ import com.tta.geumgiri.loan.domain.Loan;
 import com.tta.geumgiri.loan.persistence.LoanRepository;
 import com.tta.geumgiri.account.domain.Account;
 import com.tta.geumgiri.account.persistence.AccountRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 
-// 스케줄러를 사용해서 자동으로
+// 스케줄러를 사용해서 자동이체 설정
 @Component
 public class LoanRepaymentScheduler {
 
@@ -26,8 +27,13 @@ public class LoanRepaymentScheduler {
         this.loanService = loanService;
     }
 
-    @Scheduled(cron = "0 0/1 * * * ?") // 3분마다 실행
+    @Scheduled(cron = "0 0/1 * * * ?") // 1분마다 실행
+    @Transactional
     public void processLoanRepayment() {
+
+        // 메시지를 저장할 StringBuilder
+        StringBuilder messageBuilder = new StringBuilder();
+
         LocalDate today = LocalDate.now();
         List<Loan> loans = loanRepository.findByRepaymentDate(today);
 
@@ -41,14 +47,22 @@ public class LoanRepaymentScheduler {
                     loanService.payInstallment(loan);
 
                     if (loan.isPaid()) {
-                        System.out.println("대출 상환 완료: " + loan.getPaidInstallments() + "/" + loan.getInstallments() + "회 상환 완료되었습니다.");
+                        messageBuilder.append("사용자 ").append(loan.getMember().getName()).append("이(가) 대출한 대출(").append(loan.getId()).append(")의 상환이 완료되었습니다: ").append(loan.getPaidInstallments()).append("/").append(loan.getInstallments()).append("회 상환 완료되었습니다.\n");
                     } else {
-                        System.out.println("대출 일부 상환: " + loan.getPaidInstallments() + "/" + loan.getInstallments() + "회차가 상환되었습니다.");
+                        messageBuilder.append("사용자 ").append(loan.getMember().getName()).append("이(가) 대출한 대출(").append(loan.getId()).append(")의 일부가 상환되었습니다: ").append(loan.getPaidInstallments()).append("/").append(loan.getInstallments()).append("회차가 상환되었습니다.\n");
                     }
                 } catch (IllegalArgumentException e) {
                     System.out.println("잔액 부족으로 대출 상환 실패: " + e.getMessage());
                 }
             }
+
         }
+        // 턴이 끝날 때 구분선과 함께 출력
+        System.out.println(messageBuilder.toString());
+        System.out.println("-------------------------------------------------");
+
+        // 메시지 초기화
+        messageBuilder.setLength(0);
+
     }
 }

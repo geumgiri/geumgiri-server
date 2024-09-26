@@ -6,9 +6,11 @@ import com.tta.geumgiri.loan.domain.Loan;
 import com.tta.geumgiri.loan.persistence.LoanRepository;
 import com.tta.geumgiri.member.domain.Member;
 import com.tta.geumgiri.member.persistence.MemberRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.beans.Transient;
 import java.time.LocalDate;
 
 @Service
@@ -71,6 +73,7 @@ public class LoanService {
     }
 
     // 실제 상환 로직 처리
+    @Transactional
     public void payInstallment(Loan loan) {
 
         if (loan.getInstallments() <= 0) {
