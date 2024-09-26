@@ -50,6 +50,11 @@ public class LoanService {
         Account account = accountRepository.findByAccountNumber(accountNumber)
                 .orElseThrow(() -> new IllegalArgumentException("Account not found"));
 
+        // 계좌 소유자 확인
+        if (!account.getMember().getId().equals(memberId)) {
+            throw new IllegalArgumentException("이 계좌는 해당 회원의 것이 아닙니다.");
+        }
+
         account.addBalance(amount);
         // 대출 신청
         Loan loan = Loan.builder()
