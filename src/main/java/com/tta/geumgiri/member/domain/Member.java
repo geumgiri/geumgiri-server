@@ -39,11 +39,11 @@ public class Member extends BaseEntity {
 
 
     @Builder
-    public Member(String name, String userId, String password, int creditRatio,Role role, List<Account> accounts) {
+    public Member(String name, String userId, String password,Role role, List<Account> accounts) {
         this.name = name;
         this.userId = userId;
         this.password = password;
-        this.creditRatio = creditRatio;
+        this.creditRatio = 500;
         this.role = role;
         this.accounts = accounts;
     }
