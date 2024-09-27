@@ -18,8 +18,8 @@ public class SavingsScheduler {
     }
 
     // 매월 1일에 적금 입금 처리
-    // @Scheduled(cron = "0 0 0 1 * *")
-    @Scheduled(cron = "0 0/1 * * * ?") // 1분마다 실행
+    @Scheduled(cron = "0 0 0 1 * *")
+    //@Scheduled(cron = "0 0/1 * * * ?") // 1분마다 실행
     public void processMonthlySavings() {
         List<Savings> savingsList = savingsService.getAllSavings();
         for (Savings savings : savingsList) {

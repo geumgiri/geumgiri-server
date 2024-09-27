@@ -42,25 +42,20 @@ public class SavingsController {
             @RequestParam(required = false) Long monthlyDepositAmount,  // 적금일 경우에만 필요
             @RequestHeader("Authorization") String authHeader
     ) {
-        String accessToken = authHeader.replace("Bearer ", "");
-
-        Account account = accountService.getAccountsByMemberId(memberId, accessToken).stream()
-                .findFirst()
-                .orElseThrow(() -> new NotFoundException(ErrorStatus.ACCOUNT_NOT_FOUND));
-
         if (type.equalsIgnoreCase("deposit")) {
-            Deposit deposit = depositService.createDeposit(account, amount, interestRate, months);
+            Deposit deposit = depositService.createDeposit(memberId, amount, interestRate, months, authHeader);
             return ResponseEntity.ok(deposit);
         } else if (type.equalsIgnoreCase("savings")) {
             if (monthlyDepositAmount == null) {
                 throw new BusinessException(ErrorStatus.MISSING_MONTHLY_DEPOSIT);
             }
-            Savings savings = savingsService.createSavings(account, monthlyDepositAmount, interestRate, months);
+            Savings savings = savingsService.createSavings(memberId, monthlyDepositAmount, amount, interestRate, months, authHeader);
             return ResponseEntity.ok(savings);
         } else {
             throw new BusinessException(ErrorStatus.INVALID_SAVINGS_TYPE);
         }
     }
+
 
     // 해당 계좌의 모든 예금과 적금 조회 API
     @GetMapping("/{memberId}")
