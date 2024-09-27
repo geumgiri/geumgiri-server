@@ -7,11 +7,11 @@ import com.tta.geumgiri.loan.domain.Loan;
 import com.tta.geumgiri.loan.persistence.LoanRepository;
 import com.tta.geumgiri.member.domain.Member;
 import com.tta.geumgiri.member.persistence.MemberRepository;
+import com.tta.geumgiri.common.exception.NotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.beans.Transient;
 import java.time.LocalDate;
 
 @Service
@@ -29,14 +29,13 @@ public class LoanService {
     }
 
     public Loan applyForLoan(Long memberId, Long amount, String accountNumber, LocalDate repaymentDate, int installments) {
-
         if (installments <= 0) {
             throw new IllegalArgumentException(ErrorStatus.INVALID_INSTALLMENT.getMessage());
         }
 
         // 회원 정보 확인
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException(ErrorStatus.MEMBER_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new NotFoundException(ErrorStatus.MEMBER_NOT_FOUND));
 
         if (repaymentDate.isBefore(LocalDate.now())) {
             throw new IllegalArgumentException(ErrorStatus.INVALID_REPAYMENT_DATE.getMessage());
@@ -49,7 +48,7 @@ public class LoanService {
 
         // 계좌 정보 확인
         Account account = accountRepository.findByAccountNumber(accountNumber)
-                .orElseThrow(() -> new IllegalArgumentException(ErrorStatus.ACCOUNT_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new NotFoundException(ErrorStatus.ACCOUNT_NOT_FOUND));
 
         // 계좌 소유자 확인
         if (!account.getMember().getId().equals(memberId)) {
@@ -75,7 +74,7 @@ public class LoanService {
     // loanId로 대출을 조회하고 상환 처리
     public void payInstallment(Long loanId) {
         Loan loan = loanRepository.findById(loanId)
-                .orElseThrow(() -> new IllegalArgumentException(ErrorStatus.LOAN_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new NotFoundException(ErrorStatus.LOAN_NOT_FOUND));
 
         // 조회한 Loan 객체로 상환 처리
         payInstallment(loan);
@@ -84,7 +83,6 @@ public class LoanService {
     // 실제 상환 로직 처리
     @Transactional
     public void payInstallment(Loan loan) {
-
         if (loan.getInstallments() <= 0) {
             throw new IllegalStateException(ErrorStatus.INSTALLMENT_COUNT_ZERO.getMessage());
         }
@@ -112,6 +110,6 @@ public class LoanService {
 
     public Loan getLoanById(Long loanId) {
         return loanRepository.findById(loanId)
-                .orElseThrow(() -> new IllegalArgumentException(ErrorStatus.LOAN_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new NotFoundException(ErrorStatus.LOAN_NOT_FOUND));
     }
 }

@@ -1,6 +1,5 @@
 package com.tta.geumgiri.member.application;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import com.tta.geumgiri.common.dto.response.responseEnum.ErrorStatus;
 import com.tta.geumgiri.common.exception.NotFoundException;
@@ -19,24 +18,23 @@ public class MemberService {
   private final MemberRepository memberRepository;
 
   public MemberResponse getMember(Long id) {
-
+    // 멤버를 찾지 못한 경우 NotFoundException 발생
     Member foundMember = memberRepository.findById(id)
-        .orElseThrow(() ->
-            new NotFoundException(ErrorStatus.MEMBER_NOT_FOUND));
+            .orElseThrow(() -> new NotFoundException(ErrorStatus.MEMBER_NOT_FOUND));
+
     return MemberUtil.fromEntity(foundMember);
   }
 
   public List<MemberResponse> getAllMember() {
-
     List<Member> allMembers = memberRepository.findAll();
+
+    // 멤버가 없을 경우 NotFoundException 발생
     if (allMembers.isEmpty()) {
-      throw new EntityNotFoundException("존재하는 유저가 없습니다.");
+      throw new NotFoundException(ErrorStatus.MEMBER_NOT_FOUND);  // 적절한 에러 상태로 수정
     }
 
     return allMembers.stream()
-        .map(MemberUtil::fromEntity)
-        .toList();
+            .map(MemberUtil::fromEntity)
+            .toList();
   }
-
-
 }

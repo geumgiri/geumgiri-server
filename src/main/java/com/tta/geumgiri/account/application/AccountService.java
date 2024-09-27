@@ -8,7 +8,7 @@ import com.tta.geumgiri.common.dto.response.responseEnum.ErrorStatus;
 import com.tta.geumgiri.member.domain.Member;
 import com.tta.geumgiri.member.persistence.MemberRepository;
 import com.tta.geumgiri.member.presentation.dto.response.MemberResponse;
-import jakarta.persistence.EntityNotFoundException;
+import com.tta.geumgiri.common.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,18 +22,18 @@ public class AccountService {
     private final AuthService authService;
 
     @Autowired
-    public AccountService(AccountRepository accountRepository, MemberRepository memberRepository, AuthService authService, AuthService authService1) {
+    public AccountService(AccountRepository accountRepository, MemberRepository memberRepository, AuthService authService) {
         this.accountRepository = accountRepository;
         this.memberRepository = memberRepository;
-        this.authService = authService1;
+        this.authService = authService;
     }
 
     public Account createAccount(MemberResponse memberResponse, String accountName, String accessToken) {
-
-        authService.validateUserAccess(memberResponse.id(),accessToken);
+        authService.validateUserAccess(memberResponse.id(), accessToken);
 
         Member member = memberRepository.findById(memberResponse.id())
-                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(ErrorStatus.MEMBER_NOT_FOUND)));
+                .orElseThrow(() -> new NotFoundException(ErrorStatus.MEMBER_NOT_FOUND));
+
         Account account = Account.builder()
                 .accountName(accountName)
                 .accountNumber(AccountRandomUtil.generateAccountNum(12))  // 계좌 번호 생성 메서드
@@ -44,19 +44,26 @@ public class AccountService {
     }
 
     public List<Account> getAccountsByMemberId(Long memberId, String accessToken) {
-        authService.validateUserAccess(memberId,accessToken);
+        authService.validateUserAccess(memberId, accessToken);
 
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(ErrorStatus.MEMBER_NOT_FOUND)));
+                .orElseThrow(() -> new NotFoundException(ErrorStatus.MEMBER_NOT_FOUND));
+
         return member.getAccounts();
     }
 
-
     public Account getAccountByAccountNumber(String accountNumber, Long memberId, String accessToken) {
-        authService.validateUserAccess(memberId,accessToken);
+        authService.validateUserAccess(memberId, accessToken);
+
         return accountRepository.findByAccountNumber(accountNumber)
-                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(ErrorStatus.UNAUTHORIZED_USER)));
-     
+                .orElseThrow(() -> new NotFoundException(ErrorStatus.ACCOUNT_NOT_FOUND));
     }
 
+    public void addBalance(Long accountId, double amount) {
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new NotFoundException(ErrorStatus.ACCOUNT_NOT_FOUND));
+
+        account.setBalance((long) (account.getBalance() + amount));
+        accountRepository.save(account);
+    }
 }

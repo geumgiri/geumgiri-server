@@ -56,16 +56,28 @@ public class AccountController {
     }
 
 
-
     @GetMapping("/{accountNumber}")
-    public ResponseEntity<Account> getAccountByAccountNumber(@PathVariable String accountNumber,
-                                                             @PathVariable Long memberId,
-                                                             @RequestHeader("Authorization") String authHeader) {
+    public ResponseEntity<Account> getAccountByAccountNumber(
+            @PathVariable String accountNumber,
+            @PathVariable Long memberId,
+            @RequestHeader("Authorization") String authHeader
+    ) {
         // Authorization 헤더에서 Bearer 토큰 추출
         String accessToken = authHeader.replace("Bearer ", "");
 
         Account account = accountService.getAccountByAccountNumber(accountNumber, memberId, accessToken);
         return ResponseEntity.ok(account);
     }
+
+
+    @PostMapping("/add-balance")
+    public ResponseEntity<Void> addBalance(
+            @RequestParam Long accountId,
+            @RequestParam double amount
+    ) {
+        accountService.addBalance(accountId, amount);
+        return ResponseEntity.ok().build();
+    }
+
 
 }

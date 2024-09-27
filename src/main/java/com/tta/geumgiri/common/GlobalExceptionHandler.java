@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import com.tta.geumgiri.auth.application.exception.UnauthorizedException;
 import com.tta.geumgiri.common.dto.response.responseEnum.ErrorResponse;
 import com.tta.geumgiri.common.exception.NotFoundException;
+import com.tta.geumgiri.common.exception.BusinessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,13 +20,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   @ExceptionHandler(NotFoundException.class)
   protected ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException e) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(ErrorResponse.of(e.getErrorStatus().getStatus(), e.getMessage()));
+            .body(ErrorResponse.of(e.getErrorStatus().getStatus(), e.getMessage()));
   }
 
   @ExceptionHandler(UnauthorizedException.class)
   protected ResponseEntity<ErrorResponse> handleUnauthorizedException(UnauthorizedException e){
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-        .body(ErrorResponse.of(e.getErrorStatus().getStatus(),e.getErrorStatus().getMessage()));
+            .body(ErrorResponse.of(e.getErrorStatus().getStatus(), e.getErrorStatus().getMessage()));
+  }
+
+  @ExceptionHandler(BusinessException.class)
+  protected ResponseEntity<ErrorResponse> handleBusinessException(BusinessException e) {
+    return ResponseEntity.status(e.getErrorStatus().getStatus())
+            .body(ErrorResponse.of(e.getErrorStatus().getStatus(), e.getMessage()));
   }
 
   @ExceptionHandler(IllegalArgumentException.class)
@@ -37,8 +44,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
       errorStatus = ErrorStatus.DUPLICATE_USER_ID;
     }
 
-      assert errorStatus != null;
-      return ResponseEntity.status(errorStatus.getStatus())
+    assert errorStatus != null;
+    return ResponseEntity.status(errorStatus.getStatus())
             .body(ErrorResponse.of(errorStatus.getStatus(), errorStatus.getMessage()));
   }
 }

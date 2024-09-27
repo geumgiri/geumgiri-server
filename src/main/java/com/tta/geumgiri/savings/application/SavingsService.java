@@ -38,6 +38,6 @@ public class SavingsService {
     }
 
     public List<Savings> getSavingsByAccountId(Account account) {
-        return savingsRepository.findAllbyAccount(account);
+        return savingsRepository.findAllByAccount(account);
     }
 }

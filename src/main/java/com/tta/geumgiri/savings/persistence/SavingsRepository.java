@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface SavingsRepository extends JpaRepository<Savings, Long> {
-    List<Savings> findAllbyAccount(Account account);
+    List<Savings> findAllByAccount(Account account);
 }

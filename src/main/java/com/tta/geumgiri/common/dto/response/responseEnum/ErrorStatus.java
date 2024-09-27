@@ -27,11 +27,17 @@ public enum ErrorStatus {
   DUPLICATE_USER_ID(HttpStatus.CONFLICT.value(), "이미 존재하는 아이디입니다."),
 
   /**
+   *  예적금 관련 오류
+   */
+  MISSING_MONTHLY_DEPOSIT(HttpStatus.BAD_REQUEST.value(), "적금에는 매월 납입금액이 필요합니다."),
+  INVALID_SAVINGS_TYPE(HttpStatus.BAD_REQUEST.value(), "잘못된 타입입니다. 'deposit' 또는 'savings' 중 하나를 선택해주세요."),
+
+  /**
    *  대출 관련 오류
    */
   LOAN_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "대출이 존재하지 않습니다."),
   INSUFFICIENT_CREDIT(HttpStatus.BAD_REQUEST.value(), "신용등급이 낮아 대출이 불가능합니다."),
-  ACCOUNT_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "Account not found"),
+  ACCOUNT_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "해당 멤버의 계좌가 존재하지 않습니다."),
   INVALID_ACCOUNT_OWNER(HttpStatus.BAD_REQUEST.value(), "이 계좌는 해당 회원의 것이 아닙니다."),
   INVALID_REPAYMENT_DATE(HttpStatus.BAD_REQUEST.value(), "상환 날짜는 오늘보다 과거일 수 없습니다."),
   INVALID_INSTALLMENT(HttpStatus.BAD_REQUEST.value(), "상환 횟수는 1 이상이어야 합니다."),
