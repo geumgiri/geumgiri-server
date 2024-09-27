@@ -31,6 +31,7 @@ public enum ErrorStatus {
    */
   MISSING_MONTHLY_DEPOSIT(HttpStatus.BAD_REQUEST.value(), "적금에는 매월 납입금액이 필요합니다."),
   INVALID_SAVINGS_TYPE(HttpStatus.BAD_REQUEST.value(), "잘못된 타입입니다. 'deposit' 또는 'savings' 중 하나를 선택해주세요."),
+  INSUFFICIENT_FUNDS(HttpStatus.BAD_REQUEST.value(), "잔액이 부족합니다."),
 
   /**
    *  대출 관련 오류

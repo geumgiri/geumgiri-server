@@ -16,7 +16,7 @@ public class Savings {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
@@ -26,14 +26,19 @@ public class Savings {
     private Double interestRate;
     private int monthsElapsed;
 
-    public Savings(Account account, Long monthlyDepositAmount, LocalDateTime startDate, LocalDateTime endDate, Double interestRate) {
+    // 적금 계좌 생성 시 초기 금액 필드 추가
+    private Long initialAmount;
+
+    public Savings(Account account, Long monthlyDepositAmount, Long initialAmount, LocalDateTime startDate, LocalDateTime endDate, Double interestRate) {
         this.account = account;
         this.monthlyDepositAmount = monthlyDepositAmount;
+        this.initialAmount = initialAmount; // 초기 금액 저장
         this.startDate = startDate;
         this.endDate = endDate;
         this.interestRate = interestRate;
         this.monthsElapsed = 0;
     }
+
 
     // 이자 계산
     public Long calculateTotalSavings() {
