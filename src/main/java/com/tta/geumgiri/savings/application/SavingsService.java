@@ -70,12 +70,23 @@ public class SavingsService {
         }
     }
 
-    // 예금 만료 처리
-    public void processMaturedDeposit(Deposit deposit) {
-        if (deposit.getMaturityDate().isBefore(LocalDateTime.now())) {
-            Long maturedAmount = deposit.calculateMaturedAmount();
-            deposit.getAccount().addBalance(maturedAmount);
-            // 예금 만료 처리 로직 추가
+    @Transactional
+    public void processMaturedSavings(Savings savings) {
+        // 적금 만기일 확인
+        if (savings.getEndDate().isBefore(LocalDateTime.now())) {
+            // 총액과 이자 계산
+            Long totalSavings = savings.calculateTotalSavings();  // 적금 총액
+            Long interest = (long) (totalSavings * savings.getInterestRate() / 100);  // 이자 계산
+
+            // 원금 + 이자 합산하여 계좌에 입금
+            Account account = savings.getAccount();
+            account.addBalance(totalSavings + interest);
+
+            // 상태 업데이트: 더 이상 적금이 입금되지 않도록 처리
+            savings.setMatured(true);
+
+            System.out.println("사용자 " + account.getMember().getName() + "의 적금(" + savings.getId() + ")이 완료되어 " +
+                    totalSavings + "원과 이자 " + interest + "원을 계좌에 입금했습니다.");
         }
     }
 
