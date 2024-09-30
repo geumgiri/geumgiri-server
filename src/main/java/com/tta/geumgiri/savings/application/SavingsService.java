@@ -9,6 +9,7 @@ import com.tta.geumgiri.savings.domain.Savings;
 import com.tta.geumgiri.account.domain.Account;
 import com.tta.geumgiri.savings.persistence.DepositRepository;
 import com.tta.geumgiri.savings.persistence.SavingsRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,9 +59,10 @@ public class SavingsService {
     }
 
     // 적금의 월 납입 처리
+    @Transactional
     public void processMonthlySavings(Savings savings) {
         if (savings.getEndDate().isAfter(LocalDateTime.now())) {
-            savings.addMonthlyDeposit();
+            savings.addMinuteDeposit();
             if (savings.getAccount().getBalance() < savings.getMonthlyDepositAmount()) {
                 throw new BusinessException(ErrorStatus.INSUFFICIENT_FUNDS);
             }

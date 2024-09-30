@@ -31,13 +31,13 @@ public class SavingsController {
             @RequestParam String type,  // "deposit" 또는 "savings"로 구분
             @RequestParam Long amount,
             @RequestParam Double interestRate,
-            @RequestParam int months,
+            @RequestParam int minutes,
             @RequestParam(required = false) Long monthlyDepositAmount,  // 적금일 경우에만 필요
             @RequestHeader("Authorization") String authHeader
     ) {
         String accessToken = authHeader.replace("Bearer ", "");
 
-        Object result = savingsService.createSavingsOrDeposit(memberId, amount, interestRate, months, type, accessToken, monthlyDepositAmount);
+        Object result = savingsService.createSavingsOrDeposit(memberId, amount, interestRate, minutes, type, accessToken, monthlyDepositAmount);
         return ResponseEntity.ok(result);
     }
 
