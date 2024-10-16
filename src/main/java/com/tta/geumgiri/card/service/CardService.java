@@ -72,7 +72,7 @@ public class CardService {
     public List<MyCardListResponse> getMyCards(Long memberId) {
 
         List<MyCard> myCards = myCardRepository.findByAccountMemberId(memberId)
-                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(ErrorStatus.CARD_NOT_FOUND)));
+                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(ErrorStatus.ACCOUNT_NOT_FOUND)));
 
         return myCards
                 .stream()
