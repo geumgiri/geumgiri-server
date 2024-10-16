@@ -8,13 +8,15 @@ public class MyCardResponse {
 
     private final Long id;
     private final Long cardId;
-    private final Long accountId;
+    private final String cardName;
+    private final String account;
     private final Integer cardPoint;
 
     public MyCardResponse(MyCard myCard) {
         this.id = myCard.getId();
         this.cardId = myCard.getCard().getId();
-        this.accountId = myCard.getAccount().getId();
+        this.cardName = myCard.getCard().getCardName();
+        this.account = myCard.getAccount().getAccountNumber();
         this.cardPoint = myCard.getCardPoint();
     }
 }

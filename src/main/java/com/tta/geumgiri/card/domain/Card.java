@@ -30,9 +30,6 @@ public class Card {
     @OneToMany(mappedBy = "card", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Benefit> benefits = new ArrayList<>();
 
-    @OneToMany(mappedBy = "card", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<MyCard> myCards = new ArrayList<>();
-
     @Column(name = "created_at", updatable = false, nullable = false)
     private LocalDateTime createdAt;
 
@@ -40,11 +37,10 @@ public class Card {
     private LocalDateTime updatedAt;
 
     @Builder
-    public Card(String cardName, String cardDescription, List<Benefit> benefits, List<MyCard> myCards) {
+    public Card(String cardName, String cardDescription, List<Benefit> benefits) {
         this.cardName = cardName;
         this.cardDescription = cardDescription;
         this.benefits = benefits;
-        this.myCards = myCards;
     }
 
     @PrePersist

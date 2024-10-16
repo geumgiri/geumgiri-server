@@ -13,14 +13,14 @@ public class CardResponse {
     private final Long id;
     private final String cardName;
     private final String cardDescription;
-    private final List<Long> benefitIds;
+    private final List<BenefitResponse> benefits;
 
     public CardResponse(Card card) {
         this.id = card.getId();
         this.cardName = card.getCardName();
         this.cardDescription = card.getCardDescription();
-        this.benefitIds = card.getBenefits().stream()
-                .map(Benefit::getId)
+        this.benefits = card.getBenefits().stream()
+                .map(BenefitResponse::new)
                 .collect(Collectors.toList());
     }
 }
