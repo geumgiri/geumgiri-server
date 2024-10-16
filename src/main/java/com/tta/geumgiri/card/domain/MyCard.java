@@ -23,7 +23,7 @@ public class MyCard {
     @JoinColumn(name = "card_id", nullable = false)
     private Card card;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
