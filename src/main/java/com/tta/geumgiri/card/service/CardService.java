@@ -89,7 +89,7 @@ public class CardService {
     }
 
     @Transactional
-    public void removeMyCard(Long myCardId) {
+    public void deleteMyCard(Long myCardId) {
         MyCard myCard = myCardRepository.findById(myCardId)
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(ErrorStatus.CARD_NOT_FOUND)));
 

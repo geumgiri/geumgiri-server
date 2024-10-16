@@ -39,4 +39,10 @@ public class CardController {
     public ResponseEntity<MyCardResponse> getMyCard(@PathVariable Long myCardId) {
         return ResponseEntity.ok(cardService.getMyCard(myCardId));
     }
+
+    @DeleteMapping("/my-cards/{myCardId}")
+    public ResponseEntity<Void> deleteMyCard(@PathVariable Long myCardId) {
+        cardService.deleteMyCard(myCardId);
+        return ResponseEntity.noContent().build();
+    }
 }
