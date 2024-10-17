@@ -17,6 +17,6 @@ public class MyCardResponse {
         this.cardId = myCard.getCard().getId();
         this.cardName = myCard.getCard().getCardName();
         this.account = myCard.getAccount().getAccountNumber();
-        this.cardPoint = myCard.getCardPoint();
+        this.cardPoint = myCard.getCardPoints();
     }
 }

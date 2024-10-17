@@ -29,7 +29,7 @@ public class Benefit {
     private BenefitCategory benefitCategory;
 
     @Column(name = "value", nullable = false)
-    private Double value;
+    private Long value;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "card_id", nullable = false)
@@ -42,7 +42,7 @@ public class Benefit {
     private LocalDateTime updatedAt;
 
     @Builder
-    public Benefit(BenefitType benefitType, BenefitCategory benefitCategory, Double value, Card card) {
+    public Benefit(BenefitType benefitType, BenefitCategory benefitCategory, Long value, Card card) {
         this.benefitType = benefitType;
         this.benefitCategory = benefitCategory;
         this.value = value;

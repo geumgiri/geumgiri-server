@@ -28,7 +28,7 @@ public class MyCard {
     private Account account;
 
     @Column(name = "card_point")
-    private Integer cardPoint;
+    private Long cardPoints;
 
     @Column(name = "created_at", updatable = false, nullable = false)
     private LocalDateTime createdAt;
@@ -37,10 +37,10 @@ public class MyCard {
     private LocalDateTime updatedAt;
 
     @Builder
-    public MyCard(Card card, Account account, int cardPoint) {
+    public MyCard(Card card, Account account, Long cardPoints) {
         this.card = card;
         this.account = account;
-        this.cardPoint = cardPoint;
+        this.cardPoints = cardPoints;
     }
 
     @PrePersist
@@ -51,5 +51,9 @@ public class MyCard {
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
+    }
+
+    public void addCardPoints(Long points) {
+        this.cardPoints += points;
     }
 }
