@@ -1,8 +1,8 @@
 package com.tta.geumgiri.card.domain.dto;
 
-import com.tta.geumgiri.card.domain.Benefit;
-import com.tta.geumgiri.card.domain.BenefitCategory;
-import com.tta.geumgiri.card.domain.BenefitType;
+import com.tta.geumgiri.payment.domain.Benefit;
+import com.tta.geumgiri.payment.domain.BenefitCategory;
+import com.tta.geumgiri.payment.domain.BenefitType;
 import lombok.Getter;
 
 @Getter

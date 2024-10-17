@@ -1,6 +1,5 @@
 package com.tta.geumgiri.card.domain.dto;
 
-import com.tta.geumgiri.card.domain.Benefit;
 import com.tta.geumgiri.card.domain.Card;
 import lombok.Getter;
 

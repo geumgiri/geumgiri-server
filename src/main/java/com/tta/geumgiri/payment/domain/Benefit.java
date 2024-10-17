@@ -1,5 +1,6 @@
-package com.tta.geumgiri.card.domain;
+package com.tta.geumgiri.payment.domain;
 
+import com.tta.geumgiri.card.domain.Card;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

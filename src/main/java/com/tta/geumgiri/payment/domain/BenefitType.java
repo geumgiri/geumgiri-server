@@ -1,4 +1,4 @@
-package com.tta.geumgiri.card.domain;
+package com.tta.geumgiri.payment.domain;
 
 public enum BenefitType {
     REWARD, // 일반 적립

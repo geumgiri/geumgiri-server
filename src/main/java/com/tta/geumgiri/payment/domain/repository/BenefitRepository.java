@@ -1,6 +1,6 @@
-package com.tta.geumgiri.card.repository;
+package com.tta.geumgiri.payment.domain.repository;
 
-import com.tta.geumgiri.card.domain.Benefit;
+import com.tta.geumgiri.payment.domain.Benefit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

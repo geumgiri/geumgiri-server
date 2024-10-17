@@ -1,4 +1,4 @@
-package com.tta.geumgiri.card.domain;
+package com.tta.geumgiri.payment.domain;
 
 public enum BenefitCategory {
     FOOD,
